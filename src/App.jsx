@@ -14,7 +14,7 @@ function App() {
 
   useEffect(() =>{
     const loadOptions = async () => {
-      const res = await axios.get('http://jsonplaceholder.typicode.com/posts') // replace this with your api endpoint
+      const res = await axios.get('https://jsonplaceholder.typicode.com/posts') // replace this with your api endpoint
       const data = res.data
       let modifiedData = data.map(data => {
         return {...data, tags : []}
