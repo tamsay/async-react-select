@@ -7,7 +7,7 @@ import AsyncSelect from 'react-select/async';
 function App() {
   const [inputValue, setValue] = useState('');
   const [selectedValue, setSelectedValue] = useState(null);
-  
+
   const [testArray, setTestArray] = useState([]);
 
   const animatedComponents = makeAnimated();
@@ -45,7 +45,7 @@ const addNewTag =(e, index)=>{
 }
 
 const loadOptions = async (inputValue) => {
-    const res = await axios.get('http://jsonplaceholder.typicode.com/posts') // replace this with your api endpoint
+    const res = await axios.get('https://jsonplaceholder.typicode.com/posts') // replace this with your api endpoint
     const data = res.data
     let filteredData = data.filter((i) => i.title.toLowerCase().includes(inputValue.toLowerCase()))  
     return filteredData;
