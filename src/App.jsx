@@ -9,6 +9,7 @@ function App() {
   const [selectedValue, setSelectedValue] = useState(null);
 
   const [testArray, setTestArray] = useState([]);
+  const [filteredTagArray, setFilteredTagArray] = useState(null);
 
   const animatedComponents = makeAnimated();
 
@@ -32,6 +33,30 @@ const handleInputChange = value => {
 // handle selection
 const handleChange = value => {
   setSelectedValue(value);
+}
+
+const handleTagSearch = (e) => {
+  let value = e.target.value;
+  console.log(value)
+  if(value === ''){
+    console.log(testArray)
+    setTestArray(testArray)
+    setFilteredTagArray(null)
+
+  }
+  else{
+    let result = testArray.filter((student) => {
+      let outcome = false;
+      let filteredTag = student.tags.filter((tag) => tag.toLowerCase().includes(value.toLowerCase()))
+      if(filteredTag.length > 0){
+        outcome = true;
+      }
+      return outcome
+    })
+    console.log(result)
+    setFilteredTagArray(result)
+  }
+
 }
 
 const addNewTag =(e, index)=>{
@@ -69,8 +94,19 @@ const loadOptions = async (inputValue) => {
         isMulti
       />
       </div>
+      <input type="text" placeholder="filter by tag" onChange={(e) => handleTagSearch(e)} />
       <div>
-        {testArray.map((element, index)=>{
+        {filteredTagArray !== null ? filteredTagArray.map((element, index)=>{
+          return(
+            <div>
+              <input type="text" onKeyPress={(e)=>addNewTag(e, index)} />
+              <p>{element.title}</p>
+              <ul className="tagWrapper">
+                {element.tags.map((tag)=> (<li>{tag}</li>))}
+              </ul>
+            </div>
+          )
+        }) : testArray.map((element, index)=>{
           return(
             <div>
               <input type="text" onKeyPress={(e)=>addNewTag(e, index)} />
