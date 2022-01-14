@@ -10,6 +10,7 @@ function App() {
 
   const [testArray, setTestArray] = useState([]);
   const [filteredTagArray, setFilteredTagArray] = useState(null);
+  const [tagFilterInput, setTagFilterInput] = useState('')
 
   const animatedComponents = makeAnimated();
 
@@ -37,34 +38,33 @@ const handleChange = value => {
 
 const handleTagSearch = (e) => {
   let value = e.target.value;
-  console.log(value)
   if(value === ''){
-    console.log(testArray)
     setTestArray(testArray)
     setFilteredTagArray(null)
-
+    setTagFilterInput("")
   }
   else{
     let result = testArray.filter((student) => {
-      let outcome = false;
-      let filteredTag = student.tags.filter((tag) => tag.toLowerCase().includes(value.toLowerCase()))
-      if(filteredTag.length > 0){
-        outcome = true;
-      }
-      return outcome
+      setTagFilterInput(value)
+      return student.tags.some((tag) => tag.toLowerCase().includes(value.toLowerCase()))  
     })
-    console.log(result)
     setFilteredTagArray(result)
   }
 
 }
 
 const addNewTag =(e, index)=>{
-  if(e.key.toLowerCase() === 'enter'){
+  if(e.key.toLowerCase() === 'enter' && e.target.value !== ""){
       let value = e.target.value
+      if(tagFilterInput !== ""){
+      let newFilteredTagArray = [...filteredTagArray];
+        newFilteredTagArray[index].tags.push(value);
+        setFilteredTagArray(newFilteredTagArray)
+      }else{
       let newTestArray = [...testArray];
-      newTestArray[index].tags.push(value);
-      setTestArray(newTestArray)
+        newTestArray[index].tags.push(value);
+        setTestArray(newTestArray)
+      }
       e.target.value = ""
   }
 }
